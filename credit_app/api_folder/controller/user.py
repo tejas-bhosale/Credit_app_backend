@@ -188,12 +188,29 @@ def add_amount(data):
     except Exception as e:
         return generate_response('red','User not found',e)
     
+    if user_doc.balance == "" or user_doc.balance  == " ":
+        user_doc.balance = 0
+    
     user_doc.balance = int(user_doc.balance) +  int(data.get('amount'))
 
     user_doc.save()
     frappe.db.commit()
 
     return generate_response('green','Balance added',user_doc)
+
+def get_total_lending(email):
+    borrow_list = frappe.get_list("Transactions",fields=["*"] ,filters={"status":"Borrowed","lender_email":email})
+
+    total_lending_amount = 0
+
+    for i in range(len(borrow_list)):
+        total_lending_amount += int(borrow_list[i]['amount'])
+
+    print("############borrow_list##################",borrow_list)
+    return generate_response('green','Total lending amount returned',total_lending_amount)
+
+
+    pass
 
    
 

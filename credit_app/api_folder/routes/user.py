@@ -81,6 +81,12 @@ def add_amount(**kargs):
     data = get_payload(kargs)
     return controllers.add_amount(data)
 
+@frappe.whitelist()
+def get_total_lending(email):
+
+    # data = get_payload(kargs)
+    return controllers.get_total_lending(email)
+
 
 
 
